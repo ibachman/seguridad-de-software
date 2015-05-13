@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-    <html>
-        <head>
-        </head>
+{% extends 'base.html' %}
 
-        <body>
+    {%  block content %}
         <h1> TEST! c: </h1>
         <form method='POST' action=''>{% csrf_token %}
             {{form.as_p}}
@@ -12,4 +9,6 @@
 
         </body>
     </html>
+
+    {% endblock %}
 
