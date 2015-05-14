@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-    <html>
-        <head>
-        </head>
+{% extends 'base.html' %}
 
-        <body>
+    {%  block content %}
+    <div class="container form-signin">
         {% if exist %}
         <h1> Bienvenido {{user}} </h1>
+        <a href="logout/" class="btn btn-lg btn-danger btn-block">Salir</a>
         {% else %}
-        <h1> TEST HOME! c: </h1>
-        {% endif %}
-        <a href="registro/">Registrarse</a>
-        <a href="login/">Login</a>
-        </body>
-    </html>
 
+        <h1> TEST HOME! c: </h1>
+        <a href="login/" class="btn btn-lg btn-primary btn-block">Entrar</a>
+        <a href="registro/" class="btn btn-lg btn-info btn-block">Registrarse</a>
+
+        {% endif %}
+    </div>
+    {% endblock %}
