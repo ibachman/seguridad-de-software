@@ -1,8 +1,11 @@
+# -*- encoding: utf-8 -*-
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 
 from .forms import *
+from .models import *
 # Create your views here.
+
 def register(request):
     form=registroForm(request.POST or None)
     if form.is_valid():
@@ -12,6 +15,21 @@ def register(request):
     return render_to_response("registro.html",locals(), context_instance=RequestContext(request))
 
 def home(request):
+    user=request.session.get('username')
+    exist=request.session.get('user_exist')
     return render_to_response("home.html",locals(), context_instance=RequestContext(request))
 def login(request):
+    form=loginForm(request.POST or None)
+    user_exist=False
+    if request.method == 'POST':
+
+        if form.is_valid():
+            username=form.cleaned_data['nombre_de_usuario']
+            contr=form.cleaned_data['password']
+            user_exist = usuario.objects.filter(nombre_de_usuario=username,password=contr) is not None
+            if user_exist:
+                request.session['username']=username
+                request.session['user_exist']=user_exist
+                return HttpResponseRedirect('/../')
+            print usuario.objects.filter(nombre_de_usuario=username,password=contr)
     return render_to_response("login.html",locals(), context_instance=RequestContext(request))

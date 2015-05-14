@@ -4,7 +4,11 @@
         </head>
 
         <body>
+        {% if exist %}
+        <h1> Bienvenido {{user}} </h1>
+        {% else %}
         <h1> TEST HOME! c: </h1>
+        {% endif %}
         <a href="registro/">Registrarse</a>
         <a href="login/">Login</a>
         </body>
