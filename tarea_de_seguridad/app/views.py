@@ -55,3 +55,28 @@ def logout(request):
     except KeyError:
         pass
     return HttpResponseRedirect('/')
+
+def amistades(request):
+    user=request.session.get('username')
+    exist=request.session.get('user_exist')
+    if user is None:
+        exist=False
+    return render_to_response("amistades.html",locals(), context_instance=RequestContext(request))
+def reservas(request):
+    user=request.session.get('username')
+    exist=request.session.get('user_exist')
+    if user is None:
+        exist=False
+    return render_to_response("reservas.html",locals(), context_instance=RequestContext(request))
+def contacto(request):
+    user=request.session.get('username')
+    exist=request.session.get('user_exist')
+    if user is None:
+        exist=False
+    return render_to_response("contacto.html",locals(), context_instance=RequestContext(request))
+def moteles(request):
+    user=request.session.get('username')
+    exist=request.session.get('user_exist')
+    if user is None:
+        exist=False
+    return render_to_response("moteles.html",locals(), context_instance=RequestContext(request))
