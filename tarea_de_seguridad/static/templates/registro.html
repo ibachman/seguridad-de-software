@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
     {%  block content %}
-        <h1> TEST! c: </h1>
-        <form method='POST' action=''>{% csrf_token %}
-            {{form.as_p}}
-            <input type='submit' value="Registrarse">
-        </form>
+    <div class="container">
 
+        <form method='POST' action='' class="form-signin">{% csrf_token %}
+            <h1 class="form-signin-heading"> TEST! c: </h1>
+            {{form.as_p}}
+            <input type='submit' class="btn btn-lg btn-info btn-block" value="Registrarse">
+        </form>
+    </div>
         </body>
     </html>
 

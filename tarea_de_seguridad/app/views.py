@@ -13,3 +13,5 @@ def register(request):
 
 def home(request):
     return render_to_response("home.html",locals(), context_instance=RequestContext(request))
+def login(request):
+    return render_to_response("login.html",locals(), context_instance=RequestContext(request))
