@@ -34,6 +34,9 @@
 
       <form class="form-signin" method="POST">{% csrf_token %}
         <h2 class="form-signin-heading">Entrar a App</h2>
+          {% if user_not_registered %}
+            <h4> El usuario no está registrado </h4>
+        {% endif %}
         <!--label for="id_nombre_de_usuario" class="sr-only">User Name</label>
         <input type="text" id="id_nombre_de_usuario" name="nombre_de_usuario" class="form-control" placeholder="User Name" required autofocus>
         <label for="id_password" class="sr-only">Password</label>
