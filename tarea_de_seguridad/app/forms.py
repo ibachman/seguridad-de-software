@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 from django import forms
 from .models import *
-from django.forms.extras.widgets import SelectDateWidget     
+from django.forms.widgets import SplitDateTimeWidget
+from datetimewidget.widgets import DateWidget, TimeWidget
 
 class registroForm(forms.ModelForm):
     password=forms.CharField(label="",widget=forms.PasswordInput(attrs={'class' : 'form-control','placeholder' : 'Contraseña'}))
@@ -23,8 +24,8 @@ class loginForm(forms.ModelForm):
         fields = "__all__"
 
 class reservaForm(forms.Form):
-    fecha=forms.CharField(label="fecha")
-
-
-
+    motel = forms.CharField(label="Motel:",widget=forms.TextInput(attrs={'class' : 'form-control'}))
+    pieza = forms.CharField(label="Pieza",widget=forms.TextInput(attrs={'class' : 'form-control'}))
+    fecha = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=3))
+    hora = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 

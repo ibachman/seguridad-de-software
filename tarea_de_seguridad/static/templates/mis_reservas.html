@@ -7,16 +7,16 @@
    		<h1>Lista de Reservas:</h1>
     <table class="table table-striped">
   	<tr>
-    <th>Id</th>
-    <th>Motel</th>
-    <th>Pieza</th>
-    <th>Hora</th>
-    <th>Fecha</th>
+    <td>Id</td>
+    <td>Motel</td>
+    <td>Pieza</td>
+    <td>Hora</td>
+    <td>Fecha</td>
   	</tr>
-	  	{%for motel in moteles%}
+	  	{%for reserva in lista_reservas%}
   	<tr>
   		<td>{{reserva.id}}</td>
-  		<td>{{resera.motel}}</td>
+  		<td>{{reserva.motel}}</td>
   		<td>{{reserva.pieza}}</td>
   		<td>{{reserva.hora}}</td>
   		<td>{{reserva.fecha}}</td>

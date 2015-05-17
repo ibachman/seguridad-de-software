@@ -28,17 +28,17 @@
     <h2>Lista de piezas:</h2>
     <table class="table table-striped">
     <tr>
-    <th>Nombre</th>
-    <th>Precio</th>
-    <th>Disponibles</th>
-    <th></th>
+    <td>Nombre</td>
+    <td>Precio</td>
+    <td>Disponibles</td>
+    <td></td>
     </tr>
       {%for pieza in lista_piezas%}
     <tr>
       <td><a href="{% url 'infopieza' pieza.id %}">{{pieza.nombre_de_la_pieza}}</a></td>
       <td>{{pieza.cantidad}}</td>
       <td>{{pieza.piezas_disponibles}}</td>
-      <td><a class="btn btn-default" href="{% url 'crear_reserva'%}" role="button">Reservar</a></td>
+      <td><a class="btn btn-default" href="{% url 'crear_reserva' pieza.id%}" role="button">Reservar</a></td>
     </tr>
       {%endfor%}  
   </table>  
