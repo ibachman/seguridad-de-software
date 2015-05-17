@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-    {%  block content %}
+    {%  block content %} 
     {%if not lista_reservas%} 
     <h1>No se han efectuado reservas.</h1>
     {%else%}
@@ -10,16 +10,16 @@
     <td>Id</td>
     <td>Motel</td>
     <td>Pieza</td>
-    <td>Hora</td>
-    <td>Fecha</td>
+    <td>Fecha de Inicio:</td>
+    <td>Fecha de Término</td>
   	</tr>
 	  	{%for reserva in lista_reservas%}
   	<tr>
   		<td>{{reserva.id}}</td>
   		<td>{{reserva.motel}}</td>
   		<td>{{reserva.pieza}}</td>
-  		<td>{{reserva.hora}}</td>
-  		<td>{{reserva.fecha}}</td>
+  		<td>{{reserva.fecha1}}, {{reserva.hora1}}</td>
+  		<td>{{reserva.fecha2}}, {{reserva.hora2}}</td>
   	</tr>
   		{%endfor%}	
 	</table>

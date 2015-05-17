@@ -26,8 +26,10 @@ class loginForm(forms.ModelForm):
 class reservaForm(forms.Form):
     motel = forms.CharField(label="Motel:",widget=forms.TextInput(attrs={'class' : 'form-control'}))
     pieza = forms.CharField(label="Pieza",widget=forms.TextInput(attrs={'class' : 'form-control'}))
-    fecha = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=3))
-    hora = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    fecha1 = forms.DateField(label="Fecha de Inicio:",widget=DateWidget(usel10n=True, bootstrap_version=3))
+    hora1 = forms.TimeField(label="Hora de Inicio:",widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    fecha2 = forms.DateField(label="Fecha de Término:",widget=DateWidget(usel10n=True, bootstrap_version=3))
+    hora2 = forms.TimeField(label="Hora de Término:",widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
 class solicitudAmistadForm(forms.Form):
     solicitado=forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'Solicitado'}))
