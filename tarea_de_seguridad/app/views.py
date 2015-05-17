@@ -34,17 +34,22 @@ def home(request):
 def login(request):
     form=loginForm(request.POST or None)
     user_exist=False
+    user_not_registered=False
     if request.method == 'POST':
 
         if form.is_valid():
             username=form.cleaned_data['nombre_de_usuario']
             contr=form.cleaned_data['password']
-            user_exist = usuario.objects.filter(nombre_de_usuario=username,password=contr) is not None
+            possible_user= usuario.objects.filter(nombre_de_usuario=username,password=contr)
+            user_exist =len(possible_user) > 0
+
             if user_exist:
                 request.session['username']=username
                 request.session['user_exist']=user_exist
                 exist = user_exist
                 return HttpResponseRedirect('/../')
+            else:
+                user_not_registered= not user_exist
     exist=user_exist
     return render_to_response("login.html",locals(), context_instance=RequestContext(request))
 
