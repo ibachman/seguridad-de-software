@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+    {%  block content %} 
+    <div class ="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+        <h3>Su reserva ha sido realizada con éxito.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        <table class="table table-striped">
+          <tr>
+          <td>ID Reserva:</td>
+          <td>Motel:</td>
+          <td>Pieza:</td>
+          <td>Fecha de Inicio:</td>
+          <td>Fecha de Término:</td>
+          </tr>
+          <tr>
+          <td>{{nueva_reserva.id}}</td>
+          <td>{{nueva_reserva.motel}}</td>
+          <td>{{nueva_reserva.pieza}}</td>
+          <td>{{nueva_reserva.fecha1}}, {{nueva_reserva.hora1}}</td>
+          <td>{{nueva_reserva.fecha1}}, {{nueva_reserva.hora2}}</td>
+          </tr>
+        
+        </table>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

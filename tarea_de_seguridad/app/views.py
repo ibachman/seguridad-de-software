@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-
+from datetime import *
 from .forms import *
 from .models import *
 # Create your views here.
@@ -99,35 +99,57 @@ def info_pieza(request, pieza_id):
         exist=False
     return render_to_response("info_pieza.html",locals(), context_instance=RequestContext(request))
 
+def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
+        dt1 = datetime.combine(f1, h1);
+        dt2 = datetime.combine(f2, h2);
+        lista_reservas = reservas.objects.filter(pieza=pieza_id)
+        pieza_buscada = pieza.objects.get(id=pieza_id)
+        disponibilidad = pieza_buscada.piezas_disponibles
+        for reserva in lista_reservas:
+            dt1_reserva = datetime.combine(reserva.fecha1, reserva.hora1)
+            dt2_reserva = datetime.combine(reserva.fecha2, reserva.hora2)
+            if(dt1 > dt1_reserva and dt1 < dt2_reserva) or (dt2 > dt1_reserva and dt2 < dt2_reserva) or (dt1 == dt1_reserva or dt2== dt2_reserva):
+                disponibilidad = disponibilidad-1
+        print disponibilidad
+        return disponibilidad        
+
 def crear_reserva(request, pieza_id):
     if request.method == 'POST':
         form = reservaForm(request.POST)
         if form.is_valid():
             #guardamos la reserva sólo si hay disponibilidad
             pieza_reserva = pieza.objects.get(id=pieza_id)
-            disponibilidad =pieza_reserva.piezas_disponibles
+            cantidad_piezas = pieza_reserva.piezas_disponibles
+            fecha_1=form.cleaned_data['fecha1']
+            hora_1=form.cleaned_data['hora1']
+            fecha_2=form.cleaned_data['fecha2']
+            hora_2=form.cleaned_data['hora2']
+            disponibilidad = calcularDisponibilidad(pieza_id, fecha_1, hora_1, fecha_2, hora_2)
             if(disponibilidad > 0):
                 user_name=request.session.get('username')
                 user = usuario.objects.get(nombre_de_usuario=user_name)
                 motel_reserva=motel.objects.get(nombre_del_motel=form.cleaned_data['motel'])
-                fecha_reserva=form.cleaned_data['fecha']
-                hora_reserva=form.cleaned_data['hora']
-                nueva_reserva = reservas(motel=motel_reserva, usuario=user, 
-                pieza = pieza_reserva, fecha=fecha_reserva, hora=hora_reserva )
-                nueva_reserva.save()
-                #updateamos disponibilidad
-                nueva_disponibilidad = disponibilidad - 1
-                pieza_reserva.piezas_disponibles = nueva_disponibilidad
-                pieza_reserva.save()
-                return HttpResponseRedirect('/')
-        
+                fecha_1=form.cleaned_data['fecha1']
+                hora_1=form.cleaned_data['hora1']
+                fecha_2=form.cleaned_data['fecha2']
+                hora_2=form.cleaned_data['hora2']
+                nueva_reserva = reservas(motel=motel_reserva, usuario=user, pieza = pieza_reserva, 
+                    fecha1=fecha_1, hora1=hora_1,
+                    fecha2=fecha_2, hora2=hora_2)
+                nueva_reserva.save()           
+                lista_reservas=reservas.objects.filter(usuario=user.id)
+                return render_to_response("reserva_realizada.html",{'nueva_reserva':nueva_reserva}, context_instance=RequestContext(request))
+                
             else:
-                return HttpResponseRedirect('/')
+                return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas, 'no_disponibilidad':True})
         else:
             return HttpResponseRedirect('/')    
     else:
         pieza_obj = pieza.objects.get(id=pieza_id)
         motel_obj = motel.objects.get(id=pieza_obj.motel.id)
         form = reservaForm(initial={'motel':motel_obj.nombre_del_motel, 'pieza':pieza_obj.nombre_de_la_pieza})
+        lista_reservas = reservas.objects.filter(pieza = pieza_id)
+        #me tinca q esto es ultra poco seguro, pero la entrega es hoy.
+    return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas})
 
-    return render(request, 'crear_reserva.html', {'form': form})
+    

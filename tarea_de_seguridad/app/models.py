@@ -36,8 +36,10 @@ class reservas(models.Model):
     usuario=models.ForeignKey('usuario',related_name="usuario")
     invitado=models.ForeignKey('usuario',blank=True,null=True,related_name="invitado")
     pieza=models.ForeignKey('pieza')
-    fecha=models.DateField()
-    hora=models.TimeField()
+    fecha1=models.DateField()
+    hora1=models.TimeField()
+    fecha2=models.DateField()
+    hora2=models.TimeField()
     def __unicode__(self):
         return smart_unicode("Reserva " + str(self.pk)+": "+str(self.usuario)+" en "+str(self.motel))
 

@@ -18,5 +18,6 @@
     <div class="col-md-4">Número de piezas disponibles:</div>
     <div class="col-md-8">{{pieza_info.piezas_disponibles}}</div>
     </div>
+    <a class="btn btn-default" href="{% url 'crear_reserva' pieza_info.id%}" role="button">Reservar</a>
     {%endif%}
     {% endblock %}

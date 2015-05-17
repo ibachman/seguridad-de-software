@@ -7,9 +7,35 @@
     {{ form.media }}
 
 </head>
+<div class = "container-fluid">
+	<div class = "row">
+		{%if no_disponibilidad%}
+		La pieza que solicitó no se enuentra disponible para la fecha indicada. Por favor elija otra fecha y vuelva a efectuar la reserva.
+		{%endif%}
+		<div class = "col-md-6">
 <form method='POST' action='' >
 	{% csrf_token %}
     {{form.as_table}}
     <input type='submit' class="btn btn-lg btn-info btn-block" value="Reservar">
 </form>
+		</div>
+		<div class = "col-md-6">
+		{%if lista_reservas%}
+		<h4>La pieza ya se encuentra reservada en las fechas siguientes:</h4>
+		<table class="table table-bordered">
+			<tr>
+    		<td>Fecha de Inicio:</td>
+    		<td>Fecha de Término:</td>
+    		</tr>	
+    		{%for reserva in lista_reservas%}
+    		<tr>
+    		<td>{{reserva.fecha1}}, {{reserva.hora1}}</td>
+    		<td>{{reserva.fecha2}}, {{reserva.hora2}}</td>
+    		</tr>
+    		{%endfor%}
+		</table>
+		{%endif%}
+	</div>
+	</div>
+</div>
 {% endblock %}
