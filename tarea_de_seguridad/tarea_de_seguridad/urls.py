@@ -12,7 +12,10 @@ urlpatterns = patterns('',
     url(r'^(?P<pieza_id>[0-9]+)/crear_reserva/', 'app.views.crear_reserva', name='crear_reserva'),
     url(r'^login/', 'app.views.login', name='login'),
     url(r'^logout/', 'app.views.logout', name='logout'),
+
     url(r'^amistades/', 'app.views.amistades', name='amistades'),
+    url(r'^solicitar_amistad/', 'app.views.solicitar_amistad', name='solicitar_amistad'),
+
     url(r'^moteles/', 'app.views.moteles', name='moteles'),
     url(r'^(?P<motel_id>[0-9]+)/info_motel/', 'app.views.info_motel', name='infomotel'),
     url(r'^(?P<pieza_id>[0-9]+)/info_pieza/', 'app.views.info_pieza', name='infopieza'),

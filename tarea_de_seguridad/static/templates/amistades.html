@@ -1,5 +1,35 @@
 {% extends 'base.html' %}
 
     {%  block content %}
+    <div class="container form-signin">
+    {% if has_friends %}
+        <table style="display: inline-block;">
+        <tr>
+          <th>Amistades:</th>
 
-    {% endblock %}
+        </tr>
+        {% for amigo in amigos %}
+        <tr>
+          <td> {{ amigo }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+    <h2>Aún no posees amistades</h2>
+    {% endif %}
+    {% if has_made_frequest %}
+        <table style="display: inline-block;">
+        <tr>
+          <th>solicitudes de amistad:</th>
+
+        </tr>
+        {% for solicitud in solicitudes_de_amistad %}
+        <tr>
+          <td> {{ solicitud }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+     {% endif %}
+     <a href="../solicitar_amistad/" class="btn btn-lg btn-primary btn-block">Solicitar amistad</a>
+     </div>
+     {% endblock %}

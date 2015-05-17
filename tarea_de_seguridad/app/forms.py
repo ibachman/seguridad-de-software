@@ -29,3 +29,7 @@ class reservaForm(forms.Form):
     fecha = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=3))
     hora = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
+class solicitudAmistadForm(forms.Form):
+    solicitado=forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'Solicitado'}))
+
+

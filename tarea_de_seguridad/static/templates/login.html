@@ -37,15 +37,6 @@
           {% if user_not_registered %}
             <h4> El usuario no está registrado </h4>
         {% endif %}
-        <!--label for="id_nombre_de_usuario" class="sr-only">User Name</label>
-        <input type="text" id="id_nombre_de_usuario" name="nombre_de_usuario" class="form-control" placeholder="User Name" required autofocus>
-        <label for="id_password" class="sr-only">Password</label>
-        <input type="password" id="id_password" name="password" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div-->
           {{form.as_p}}
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
           <a href="../registro/" class="btn btn-lg btn-info btn-block" >Registrarse</a>

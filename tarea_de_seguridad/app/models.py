@@ -45,6 +45,10 @@ class amistad(models.Model):
     usuario_1=models.ForeignKey('usuario',related_name="usuario1")
     usuario_2=models.ForeignKey('usuario',related_name="usuario2")
     visto=models.BooleanField(default=False)
+    @classmethod
+    def create(cls,user1, user2):
+        am= cls(usuario_1=user1,usuario_2=user2)
+        return am
     def __unicode__(self):
         return smart_unicode(str(self.usuario_1)+" es amigo de "+str(self.usuario_2))
 
@@ -52,6 +56,10 @@ class solicitudesDeAmistad(models.Model):
     solicitante=models.ForeignKey('usuario',related_name="solicitante")
     solicitado=models.ForeignKey('usuario',related_name="solicitado")
     timespamp=models.DateTimeField(auto_now_add=True,auto_now=False)
+    @classmethod
+    def create(cls,user1, user2):
+        solicitud = cls(solicitante=user1,solicitado=user2)
+        return solicitud
     def __unicode__(self):
         return smart_unicode(str(self.solicitante)+" solicitó ser amigo de "+str(self.solicitado))
 
