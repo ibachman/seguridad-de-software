@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+    {%  block content %}
+    {% if not motel_info %}
+      <h1>El motel que busca no existe.</h1>
+    
+    {%else%}
+    <h1>{{motel_info.nombre_del_motel}}</h1>
+    <div class="row">
+    <div class="col-md-4">Ubicación:</div>
+    <div class="col-md-8">{{motel_info.ubicacion}}</div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">Descripción:</div>
+    <div class="col-md-8">{{motel_info.descripcion}}</div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">Teléfono:</div>
+    <div class="col-md-8">{{motel_info.telefono}}</div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">Email:</div>
+    <div class="col-md-8">{{motel_info.email}}</div>
+    </div>
+    {%if not lista_piezas%}
+    <h3>No se han ingresado piezas.</h3>
+    {%else%}
+    <h2>Lista de piezas:</h2>
+    <table class="table table-striped">
+    <tr>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th>Disponibles</th>
+    <th></th>
+    </tr>
+      {%for pieza in lista_piezas%}
+    <tr>
+      <td><a href="{% url 'infopieza' pieza.id %}">{{pieza.nombre_de_la_pieza}}</a></td>
+      <td>{{pieza.cantidad}}</td>
+      <td>{{pieza.piezas_disponibles}}</td>
+      <td><a class="btn btn-default" href="{% url 'crear_reserva'%}" role="button">Reservar</a></td>
+    </tr>
+      {%endfor%}  
+  </table>  
+    {% endif %}
+    {% endif %}
+    {% endblock %}

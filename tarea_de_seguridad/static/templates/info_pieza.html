@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+    {%  block content %}
+    {% if not pieza_info %}
+      <h1>La pieza que busca no existe.</h1>
+    
+    {%else%}
+    <h1>{{pieza_info.nombre_de_la_pieza}}</h1>
+    <div class="row">
+    <div class="col-md-4">Descripción:</div>
+    <div class="col-md-8">{{pieza_info.descripcion}}</div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">Precio:</div>
+    <div class="col-md-8">{{pieza_info.cantidad}}</div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">Número de piezas disponibles:</div>
+    <div class="col-md-8">{{pieza_info.piezas_disponibles}}</div>
+    </div>
+    {%endif%}
+    {% endblock %}

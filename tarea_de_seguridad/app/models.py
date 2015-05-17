@@ -42,8 +42,8 @@ class reservas(models.Model):
         return smart_unicode("Reserva " + str(self.pk)+": "+str(self.usuario)+" en "+str(self.motel))
 
 class amistad(models.Model):
-    usuario_1=models.ForeignKey('usuario',related_name="usuario 1")
-    usuario_2=models.ForeignKey('usuario',related_name="usuario 2")
+    usuario_1=models.ForeignKey('usuario',related_name="usuario1")
+    usuario_2=models.ForeignKey('usuario',related_name="usuario2")
     visto=models.BooleanField(default=False)
     def __unicode__(self):
         return smart_unicode(str(self.usuario_1)+" es amigo de "+str(self.usuario_2))
