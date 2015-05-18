@@ -17,12 +17,8 @@ def register(request):
         if user is None:
             exist=False
         return HttpResponseRedirect('/../')
-    user=request.session.get('username')
-    exist=request.session.get('user_exist')
-    if user is None:
-        exist=False
 
-    return render_to_response("registro.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("registro.html",{'form':form}, context_instance=RequestContext(request))
 
 def home(request):
     user=request.session.get('username')
@@ -46,12 +42,11 @@ def login(request):
             if user_exist:
                 request.session['username']=username
                 request.session['user_exist']=user_exist
-                exist = user_exist
                 return HttpResponseRedirect('/../')
             else:
                 user_not_registered= not user_exist
-    exist=user_exist
-    return render_to_response("login.html",locals(), context_instance=RequestContext(request))
+
+    return render_to_response("login.html",{'form':form,'user_not_registered':user_not_registered}, context_instance=RequestContext(request))
 
 def logout(request):
     try:
@@ -82,7 +77,10 @@ def amistades(request):
     has_made_frequest=len(sol_amis)>0
     if user is None:
         exist=False
-    return render_to_response("amistades.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("amistades.html",{'exist':exist,'has_friends':has_friends,
+                                                'has_made_frequest':has_made_frequest,
+                                                'solicitudes_de_amistad':solicitudes_de_amistad,
+                                                'amigos':amigos}, context_instance=RequestContext(request))
 
 def solicitar_amistad(request):
     user=request.session.get('username')
@@ -108,7 +106,7 @@ def solicitar_amistad(request):
                 sol.save()
        return HttpResponseRedirect('/../')
 
-    return render_to_response("solicitar_amistad.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("solicitar_amistad.html",{'exist':exist,'form':form}, context_instance=RequestContext(request))
 
 
 def mis_reservas(request):
