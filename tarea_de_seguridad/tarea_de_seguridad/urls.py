@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^(?P<motel_id>[0-9]+)/info_motel/', 'app.views.info_motel', name='infomotel'),
     url(r'^(?P<pieza_id>[0-9]+)/info_pieza/', 'app.views.info_pieza', name='infopieza'),
     url(r'^mis_reservas/', 'app.views.mis_reservas', name='reservas'),
-    url(r'^contacto/', 'app.views.contacto', name='contacto'),
+    url(r'^contact/thankyou/', 'app.views.thankyou', name='thankyou'),
+    url(r'^contact/', 'app.views.contactview', name='contact'),
     url(r'^admin/', include(admin.site.urls)),
 )
