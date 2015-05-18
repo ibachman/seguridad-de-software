@@ -120,7 +120,7 @@ def mis_reservas(request):
     lista_reservas=reservas.objects.filter(usuario=current_user.id)
     if user is None:
         exist=False
-    return render_to_response("mis_reservas.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("mis_reservas.html",{'lista_reservas':lista_reservas}, context_instance=RequestContext(request))
 def contacto(request):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
@@ -133,7 +133,7 @@ def moteles(request):
     lista_moteles=motel.objects.all()
     if user is None:
         exist=False
-    return render_to_response("moteles.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("moteles.html",{'lista_moteles':lista_moteles}, context_instance=RequestContext(request))
 def info_motel(request, motel_id):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
@@ -141,28 +141,27 @@ def info_motel(request, motel_id):
     lista_piezas=pieza.objects.filter(motel=motel_id)
     if user is None:
         exist=False
-    return render_to_response("info_motel.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("info_motel.html",{'motel_info':motel_info, 'lista_piezas':lista_piezas}, context_instance=RequestContext(request))
 def info_pieza(request, pieza_id):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
     pieza_info=pieza.objects.get(id=pieza_id)
     if user is None:
         exist=False
-    return render_to_response("info_pieza.html",locals(), context_instance=RequestContext(request))
+    return render_to_response("info_pieza.html",{'pieza_info':pieza_info}, context_instance=RequestContext(request))
 
 def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
-        dt1 = datetime.combine(f1, h1);
-        dt2 = datetime.combine(f2, h2);
-        lista_reservas = reservas.objects.filter(pieza=pieza_id)
-        pieza_buscada = pieza.objects.get(id=pieza_id)
-        disponibilidad = pieza_buscada.piezas_disponibles
-        for reserva in lista_reservas:
-            dt1_reserva = datetime.combine(reserva.fecha1, reserva.hora1)
-            dt2_reserva = datetime.combine(reserva.fecha2, reserva.hora2)
-            if(dt1 > dt1_reserva and dt1 < dt2_reserva) or (dt2 > dt1_reserva and dt2 < dt2_reserva) or (dt1 == dt1_reserva or dt2== dt2_reserva):
-                disponibilidad = disponibilidad-1
-        print disponibilidad
-        return disponibilidad        
+    dt1 = datetime.combine(f1, h1);
+    dt2 = datetime.combine(f2, h2);
+    lista_reservas = reservas.objects.filter(pieza=pieza_id)
+    pieza_buscada = pieza.objects.get(id=pieza_id)
+    disponibilidad = pieza_buscada.piezas_disponibles
+    for reserva in lista_reservas:
+        dt1_reserva = datetime.combine(reserva.fecha1, reserva.hora1)
+        dt2_reserva = datetime.combine(reserva.fecha2, reserva.hora2)
+        if(dt1 > dt1_reserva and dt1 < dt2_reserva) or (dt2 > dt1_reserva and dt2 < dt2_reserva) or (dt1 == dt1_reserva or dt2== dt2_reserva):
+            disponibilidad = disponibilidad-1
+    return disponibilidad        
 
 def crear_reserva(request, pieza_id):
     if request.method == 'POST':
