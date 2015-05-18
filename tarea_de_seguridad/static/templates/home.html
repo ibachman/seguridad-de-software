@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
     {%  block content %}
-    <div class="container form-signin">
+    <div class="container-fluid">
         {% if exist %}
-        <h1> Bienvenido {{user}} </h1>
-        <a href="logout/" class="btn btn-lg btn-danger btn-block">Salir</a>
-        {% else %}
+        <div class="row">
+        <div class="col-md-12">
+        <h3> Bienvenid@ a FastHookUp {{user}} !</h3>
+        </div>
+        <div class="row">
+        <div class="col-md-4">
+        
+        <p>FastHookUp es una aplicación de reservas de piezas de moteles. En ella podrás encontrar información acerca de moteles y sus piezas disponibles, hacer reservas e incluso hacer amistades.</p>
+        </div>
+        <div class="col-md-4">
+        <p>Para efectuar una reserva, busca el motel que te interesa en el listado de moteles y haz click en la pieza que te interese.</p>
 
-        <h1> TEST HOME! c: </h1>
+        <p>Para ver tus reservas realizadas, haz click en la pestaña Reservas.</p>
+        </div>
+        <div class="col-md-4">
+        <p>Para hacer amistades, haz click en Amistades e ingresa el nombre del usuario que te interesa contactar. Para proteger tu privacidad y la del resto de los usuarios, la amistad sólo se concretará si el usuario que agregaste también te agrega.</p>
+        </div>
+        
+        </div>
+        <a href="logout/" class="btn btn-lg btn-danger ">Salir</a>
+        {% else %}
+        <h1> Bienvenido a FastHookUp! </h1>
+        <p>FastHookUp es una aplicación de reservas de piezas de moteles. Para comenzar, ingresa o regístrate.</p>
         <a href="login/" class="btn btn-lg btn-primary btn-block">Entrar</a>
         <a href="registro/" class="btn btn-lg btn-info btn-block">Registrarse</a>
 
