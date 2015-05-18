@@ -129,15 +129,24 @@ def mis_reservas(request):
     lista_reservas=reservas.objects.filter(usuario=current_user.id)
     if user is None:
         exist=False
-    return render_to_response("mis_reservas.html",{'lista_reservas':lista_reservas}, context_instance=RequestContext(request))
-def contacto(request):
+    return render_to_response("mis_reservas.html",{'lista_reservas':lista_reservas,'exist':exist}, context_instance=RequestContext(request))
+def contactview(request):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
     if user is None:
         exist=False
     else:
         request.session.set_expiry(900)
+    form=conctacForm(request.POST or None)
+    if ((request.method == 'POST') and form.is_valid() ):
+            nombre=form.cleaned_data['nombre']
+            mail=form.cleaned_data['mail']
+            mensaje=form.cleaned_data['mensaje']
     return render_to_response("contacto.html",locals(), context_instance=RequestContext(request))
+
+def thankyou(request):
+    return render_to_response('thankyou.html')
+
 def moteles(request):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
@@ -146,7 +155,7 @@ def moteles(request):
         exist=False
     else:
         request.session.set_expiry(900)
-    return render_to_response("moteles.html",{'lista_moteles':lista_moteles}, context_instance=RequestContext(request))
+    return render_to_response("moteles.html",{'lista_moteles':lista_moteles,'exist':exist}, context_instance=RequestContext(request))
     
 def info_motel(request, motel_id):
     user=request.session.get('username')
@@ -157,7 +166,7 @@ def info_motel(request, motel_id):
         exist=False
     else:
         request.session.set_expiry(900)
-    return render_to_response("info_motel.html",{'motel_info':motel_info, 'lista_piezas':lista_piezas}, context_instance=RequestContext(request))
+    return render_to_response("info_motel.html",{'motel_info':motel_info, 'lista_piezas':lista_piezas,'exist':exist}, context_instance=RequestContext(request))
 
 def info_pieza(request, pieza_id):
     user=request.session.get('username')
@@ -167,7 +176,7 @@ def info_pieza(request, pieza_id):
         exist=False
     else:
         request.session.set_expiry(900)
-    return render_to_response("info_pieza.html",{'pieza_info':pieza_info}, context_instance=RequestContext(request))
+    return render_to_response("info_pieza.html",{'pieza_info':pieza_info,'exist':exist}, context_instance=RequestContext(request))
 
 def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
     dt1 = datetime.combine(f1, h1);

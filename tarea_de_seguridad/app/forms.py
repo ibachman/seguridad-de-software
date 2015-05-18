@@ -34,4 +34,7 @@ class reservaForm(forms.Form):
 class solicitudAmistadForm(forms.Form):
     solicitado=forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'Solicitado'}))
 
-
+class conctacForm(forms.Form):
+    nombre = forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'Nombre'}))
+    mailContacto = forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'mail'}))
+    mensaje = forms.CharField(label="",widget=forms.TextInput(attrs={'class' : 'form-control','placeholder' : 'mensaje'}))
