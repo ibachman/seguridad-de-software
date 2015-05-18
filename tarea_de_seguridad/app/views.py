@@ -25,6 +25,8 @@ def home(request):
     exist=request.session.get('user_exist')
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("home.html",locals(), context_instance=RequestContext(request))
 
 def login(request):
@@ -42,6 +44,7 @@ def login(request):
             if user_exist:
                 request.session['username']=username
                 request.session['user_exist']=user_exist
+                request.session.set_expiry(900)
                 return HttpResponseRedirect('/../')
             else:
                 user_not_registered= not user_exist
@@ -51,7 +54,6 @@ def login(request):
 def logout(request):
     try:
         del request.session['username']
-        #del request.session['user_exist']
     except KeyError:
         pass
     return HttpResponseRedirect('/')
@@ -77,6 +79,8 @@ def amistades(request):
     has_made_frequest=len(sol_amis)>0
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("amistades.html",{'exist':exist,'has_friends':has_friends,
                                                 'has_made_frequest':has_made_frequest,
                                                 'solicitudes_de_amistad':solicitudes_de_amistad,
@@ -85,6 +89,11 @@ def amistades(request):
 def solicitar_amistad(request):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
+    if user is None:
+        exist=False
+    else:
+        request.session.set_expiry(900)
+
     form=solicitudAmistadForm(request.POST or None)
 
     if request.method == 'POST':
@@ -114,6 +123,8 @@ def mis_reservas(request):
     exist=request.session.get('user_exist')
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     current_user = usuario.objects.get(nombre_de_usuario=user)              
     lista_reservas=reservas.objects.filter(usuario=current_user.id)
     if user is None:
@@ -124,6 +135,8 @@ def contacto(request):
     exist=request.session.get('user_exist')
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("contacto.html",locals(), context_instance=RequestContext(request))
 def moteles(request):
     user=request.session.get('username')
@@ -131,6 +144,8 @@ def moteles(request):
     lista_moteles=motel.objects.all()
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("moteles.html",locals(), context_instance=RequestContext(request))
 def info_motel(request, motel_id):
     user=request.session.get('username')
@@ -139,6 +154,8 @@ def info_motel(request, motel_id):
     lista_piezas=pieza.objects.filter(motel=motel_id)
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("info_motel.html",locals(), context_instance=RequestContext(request))
 def info_pieza(request, pieza_id):
     user=request.session.get('username')
@@ -146,6 +163,8 @@ def info_pieza(request, pieza_id):
     pieza_info=pieza.objects.get(id=pieza_id)
     if user is None:
         exist=False
+    else:
+        request.session.set_expiry(900)
     return render_to_response("info_pieza.html",locals(), context_instance=RequestContext(request))
 
 def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
@@ -163,6 +182,7 @@ def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
         return disponibilidad        
 
 def crear_reserva(request, pieza_id):
+    request.session.set_expiry(900)
     if request.method == 'POST':
         form = reservaForm(request.POST)
         if form.is_valid():
