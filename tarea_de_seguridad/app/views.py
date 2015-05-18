@@ -163,8 +163,30 @@ def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
             disponibilidad = disponibilidad-1
     return disponibilidad        
 
+def limpiar_bd():
+    now = datetime.now()
+    lista_reservas = reservas.objects.all()
+    items_deleted = 0
+    for reserva in lista_reservas:
+        reserva_datetime = datetime.combine(reserva.fecha2, reserva.hora2)
+        if (now>reserva_datetime):
+            reserva.delete()        
+            ++items_deleted
+    return items_deleted
+
+def validar_reserva(f1, f2, h1, h2):
+    dt1 = datetime.combine(f1, h1)
+    dt2 = datetime.combine(f2, h2)
+    now = datetime.now()
+    if(dt2 < dt1):
+        return False
+    elif(dt1<now):
+        return False
+    return True
+
 def crear_reserva(request, pieza_id):
     if request.method == 'POST':
+        limpiar_bd()
         form = reservaForm(request.POST)
         if form.is_valid():
             #guardamos la reserva sólo si hay disponibilidad
@@ -175,9 +197,12 @@ def crear_reserva(request, pieza_id):
             fecha_2=form.cleaned_data['fecha2']
             hora_2=form.cleaned_data['hora2']
             disponibilidad = calcularDisponibilidad(pieza_id, fecha_1, hora_1, fecha_2, hora_2)
-            if(disponibilidad > 0):
-                user_name=request.session.get('username')
-                user = usuario.objects.get(nombre_de_usuario=user_name)
+            reserva_valida = validar_reserva(fecha_1,fecha_2,hora_1,hora_2)
+            user_name=request.session.get('username')
+            user = usuario.objects.get(nombre_de_usuario=user_name)
+            lista_reservas=reservas.objects.filter(usuario=user.id)
+                            
+            if(disponibilidad > 0 and reserva_valida):
                 motel_reserva=motel.objects.get(nombre_del_motel=form.cleaned_data['motel'])
                 fecha_1=form.cleaned_data['fecha1']
                 hora_1=form.cleaned_data['hora1']
@@ -187,11 +212,10 @@ def crear_reserva(request, pieza_id):
                     fecha1=fecha_1, hora1=hora_1,
                     fecha2=fecha_2, hora2=hora_2)
                 nueva_reserva.save()           
-                lista_reservas=reservas.objects.filter(usuario=user.id)
                 return render_to_response("reserva_realizada.html",{'nueva_reserva':nueva_reserva}, context_instance=RequestContext(request))
                 
             else:
-                return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas, 'no_disponibilidad':True})
+                return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas, 'error':True})
         else:
             return HttpResponseRedirect('/')    
     else:

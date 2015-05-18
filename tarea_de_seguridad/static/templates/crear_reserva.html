@@ -8,10 +8,12 @@
 
 </head>
 <div class = "container-fluid">
+	{%if error%}
+	<h3>El Formulario contiene errores en la fecha indicada.</h3>
+	{%endif%}
+		
+
 	<div class = "row">
-		{%if no_disponibilidad%}
-		La pieza que solicitó no se enuentra disponible para la fecha indicada. Por favor elija otra fecha y vuelva a efectuar la reserva.
-		{%endif%}
 		<div class = "col-md-6">
 <form method='POST' action='' >
 	{% csrf_token %}
