@@ -1,9 +1,10 @@
 # tarea-seguridad-de-software
 Hola! Nuestra aplicación es un sistema de reservas de moteles. Para correrla se necesita python 2.7, django 1.8.1 y sqlite3.
 
-Para installar django en ubuntu trusty o linux mint:
+Para installar django y los widgets necesarios para correr la aplicación en ubuntu trusty o linux mint:
 sudo apt-get install python-pip 
 pip install django
+pip install django-datetime-widget
 
 Para clonar el proyecto:
 git clone https://github.com/ibachman/seguridad-de-software.git
