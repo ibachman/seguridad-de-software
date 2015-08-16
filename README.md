@@ -4,7 +4,9 @@ Hola! Nuestra aplicación es un sistema de reservas de moteles. Para correrla se
 Para installar django y los widgets necesarios para correr la aplicación en ubuntu trusty o linux mint primero debes tener pip, python-dev y libffi-dev:
 
 sudo apt-get install python-pip
+
 sudo apt-get install python-dev
+
 sudo apt-get install libffi-dev
 
 Luego para continuar tienes dos opciones:
@@ -21,10 +23,10 @@ o también se puede simplemente descomprimir el proyecto que subimos a u-cursos 
 Luego de clonar, en la carpeta del proyecto:
 python manage.py runserver
 
-Para poder observar el comportamiento de la base de datos es necesario que el atriburo DEBUG en settings.py sea True, además la aplicación NO VA A CORRER sin este cambio, pues para ello necesitariamos un sitio host el cual no tenemos, por favor poner DEBUG=True. 
+Para poder observar el comportamiento de la base de datos es necesario que el atriburo DEBUG en settings.py sea True, además la aplicación NO VA A CORRER sin este cambio, pues para ello necesitariamos un sitio host el cual no tenemos, por favor poner DEBUG=True.
 
 En caso de que tuviesemos un host, DEBUG debe ser False para evitar que usuarios puedan ver errores internos.
 
-La base de datos está poblada y su super usuarios es 
+La base de datos está poblada y su super usuarios es
 usuario:admin
 password:123456
