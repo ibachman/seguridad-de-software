@@ -15,6 +15,22 @@ Luego para continuar tienes dos opciones:
 
 2.- Ejecutar "pip install django" y "pip install django-datetime-widget"
 
+/// intrucciones para Mac //
+
+sudo easy_install pip
+
+sudo easy_install virtualenv
+
+xcode-select --install
+
+pip install -r requirements.txt
+
+pip install django
+
+pip install django-datetime-widget
+
+///
+
 Para clonar el proyecto:
 git clone https://github.com/ibachman/seguridad-de-software.git
 
