@@ -10,14 +10,21 @@ from .models import *
 def register(request):
     form=registroForm(request.POST or None)
     if form.is_valid():
-        save_it=form.save(commit=False)
-        save_it.save()
-        user=request.session.get('username')
-        exist=request.session.get('user_exist')
-        if user is None:
+        name = form.cleaned_data['nombre_de_usuario']
+        password = form.cleaned_data['password']
+        email = form.cleaned_data['email']
+        encoded_password = make_password(password)
+        if is_password_usable(encoded_password):
+            new_user = usuario(nombre_de_usuario=name,nickname='',password=encoded_password,email=email)
+            new_user.save()
+            user=request.session.get('username')
+            exist=request.session.get('user_exist')
+            if user is None:
+                exist=False
+                return HttpResponseRedirect('/../')
+        else:
             exist=False
-        return HttpResponseRedirect('/../')
-
+            return HttpResponseRedirect('/../')
     return render_to_response("registro.html",{'form':form}, context_instance=RequestContext(request))
 
 def home(request):
@@ -34,21 +41,21 @@ def login(request):
     user_exist=False
     user_not_registered=False
     if request.method == 'POST':
-
         if form.is_valid():
             username=form.cleaned_data['nombre_de_usuario']
-            contr=form.cleaned_data['password']
-            possible_user= usuario.objects.filter(nombre_de_usuario=username,password=contr)
-            user_exist =len(possible_user) > 0
-
-            if user_exist:
+            password=form.cleaned_data['password']
+            try:
+                possible_user= usuario.objects.get(nombre_de_usuario=username)
+            except possible_user.DoesNotExist:
+                possible_user = None
+            if possible_user is None:
+                user_not_registered= True
+            elif check_password(password, possible_user.password):
+                user_exist=True
                 request.session['username']=username
                 request.session['user_exist']=user_exist
                 request.session.set_expiry(900)
                 return HttpResponseRedirect('/../')
-            else:
-                user_not_registered= not user_exist
-
     return render_to_response("login.html",{'form':form,'user_not_registered':user_not_registered}, context_instance=RequestContext(request))
 
 def logout(request):
@@ -125,7 +132,7 @@ def mis_reservas(request):
         exist=False
     else:
         request.session.set_expiry(900)
-    current_user = usuario.objects.get(nombre_de_usuario=user)              
+    current_user = usuario.objects.get(nombre_de_usuario=user)
     lista_reservas=reservas.objects.filter(usuario=current_user.id)
     if user is None:
         exist=False
@@ -156,7 +163,7 @@ def moteles(request):
     else:
         request.session.set_expiry(900)
     return render_to_response("moteles.html",{'lista_moteles':lista_moteles,'exist':exist}, context_instance=RequestContext(request))
-    
+
 def info_motel(request, motel_id):
     user=request.session.get('username')
     exist=request.session.get('user_exist')
@@ -189,7 +196,7 @@ def calcularDisponibilidad(pieza_id, f1, h1, f2, h2):
         dt2_reserva = datetime.combine(reserva.fecha2, reserva.hora2)
         if(dt1 > dt1_reserva and dt1 < dt2_reserva) or (dt2 > dt1_reserva and dt2 < dt2_reserva) or (dt1 == dt1_reserva or dt2== dt2_reserva):
             disponibilidad = disponibilidad-1
-    return disponibilidad        
+    return disponibilidad
 
 def limpiar_bd():
     now = datetime.now()
@@ -198,7 +205,7 @@ def limpiar_bd():
     for reserva in lista_reservas:
         reserva_datetime = datetime.combine(reserva.fecha2, reserva.hora2)
         if (now>reserva_datetime):
-            reserva.delete()        
+            reserva.delete()
             ++items_deleted
     return items_deleted
 
@@ -230,23 +237,23 @@ def crear_reserva(request, pieza_id):
             user_name=request.session.get('username')
             user = usuario.objects.get(nombre_de_usuario=user_name)
             lista_reservas=reservas.objects.filter(usuario=user.id)
-                            
+
             if(disponibilidad > 0 and reserva_valida):
                 motel_reserva=motel.objects.get(nombre_del_motel=form.cleaned_data['motel'])
                 fecha_1=form.cleaned_data['fecha1']
                 hora_1=form.cleaned_data['hora1']
                 fecha_2=form.cleaned_data['fecha2']
                 hora_2=form.cleaned_data['hora2']
-                nueva_reserva = reservas(motel=motel_reserva, usuario=user, pieza = pieza_reserva, 
+                nueva_reserva = reservas(motel=motel_reserva, usuario=user, pieza = pieza_reserva,
                     fecha1=fecha_1, hora1=hora_1,
                     fecha2=fecha_2, hora2=hora_2)
-                nueva_reserva.save()           
+                nueva_reserva.save()
                 return render_to_response("reserva_realizada.html",{'nueva_reserva':nueva_reserva}, context_instance=RequestContext(request))
-                
+
             else:
                 return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas, 'error':True})
         else:
-            return HttpResponseRedirect('/')    
+            return HttpResponseRedirect('/')
     else:
         pieza_obj = pieza.objects.get(id=pieza_id)
         motel_obj = motel.objects.get(id=pieza_obj.motel.id)
@@ -254,5 +261,3 @@ def crear_reserva(request, pieza_id):
         lista_reservas = reservas.objects.filter(pieza = pieza_id)
         #me tinca q esto es ultra poco seguro, pero la entrega es hoy.
     return render(request, 'crear_reserva.html', {'form': form, 'lista_reservas': lista_reservas})
-
-    

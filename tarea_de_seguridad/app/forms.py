@@ -3,6 +3,7 @@ from django import forms
 from .models import *
 from django.forms.widgets import SplitDateTimeWidget
 from datetimewidget.widgets import DateWidget, TimeWidget
+from django.contrib.auth.hashers import *
 
 class registroForm(forms.ModelForm):
     password=forms.CharField(label="",widget=forms.PasswordInput(attrs={'class' : 'form-control','placeholder' : 'Contraseña'}))
@@ -12,7 +13,7 @@ class registroForm(forms.ModelForm):
 
     class Meta:
         model=usuario
-        fields = "__all__" 
+        fields = "__all__"
 
 class loginForm(forms.ModelForm):
     password=forms.CharField(label="",widget=forms.PasswordInput(attrs={'class' : 'form-control','placeholder' : 'Contraseña'}))
