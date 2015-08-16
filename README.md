@@ -1,7 +1,13 @@
 # tarea-seguridad-de-software
 Hola! Nuestra aplicación es un sistema de reservas de moteles. Para correrla se necesita python 2.7, django 1.8.1 y sqlite3.
 
-Para installar django y los widgets necesarios para correr la aplicación en ubuntu trusty o linux mint primero debes tener pip (sudo apt-get install python-pip). Luego para continuar tienes dos opciones:
+Para installar django y los widgets necesarios para correr la aplicación en ubuntu trusty o linux mint primero debes tener pip, python-dev y libffi-dev:
+
+sudo apt-get install python-pip
+sudo apt-get install python-dev
+sudo apt-get install libffi-dev
+
+Luego para continuar tienes dos opciones:
 
 1.- Ejecutar en consola "pip install -r requirements.txt" usando el archivo requirements.txt en el repositorio
 
