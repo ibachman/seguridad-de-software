@@ -34,7 +34,6 @@ SESSION_COOKIE_HTTPONLY = True
 
 SECURE_BROWSER_XSS_FILTER = True
 
-SESSION_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = (
@@ -56,6 +55,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+]
 
 ROOT_URLCONF = 'tarea_de_seguridad.urls'
 

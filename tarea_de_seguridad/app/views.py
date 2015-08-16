@@ -5,6 +5,7 @@ from django.db.models import Q
 from datetime import *
 from .forms import *
 from .models import *
+from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
 # Create your views here.
 
 def register(request):
@@ -13,7 +14,7 @@ def register(request):
         name = form.cleaned_data['nombre_de_usuario']
         password = form.cleaned_data['password']
         email = form.cleaned_data['email']
-        encoded_password = make_password(password)
+        encoded_password = make_password(password, None, 'bcrypt_sha256')
         if is_password_usable(encoded_password):
             new_user = usuario(nombre_de_usuario=name,nickname='',password=encoded_password,email=email)
             new_user.save()
